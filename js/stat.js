@@ -1,5 +1,11 @@
 'use strict';
 
+var FONT = '16px PT Mono';
+
+function getRandomBlueColor() {
+  return 'rgba(0, 0, 255,' + Math.ceil(Math.random() * 10) / 10 + ')';
+}
+
 window.renderStatistics = function (ctx, names, times) {
   ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
   ctx.strokeRect(90, 10, 540, 300);
@@ -10,7 +16,7 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillRect(80, -10, 540, 300);
 
   ctx.fillStyle = 'black';
-  ctx.font = '16px PT Mono';
+  ctx.font = FONT;
   ctx.fillText('Ура вы победили!', 260, 30);
   ctx.fillText('Список результатов:', 248, 60);
 
@@ -25,29 +31,25 @@ window.renderStatistics = function (ctx, names, times) {
     }
   }
 
-  var histogramHeight = 150;
-  var step = histogramHeight / (max - 0);
-  var barWidth = 40;
-  var indent = 90;
-  var initialX = 190;
-  var initialY = 115;
-  var lineHeight = 15;
-
-  // ctx.fillText('Худшее время: ' + max + 'мс у игрока ' + names[maxIndex], 175, 80);
+  var HISTOGRAM_HEIGHT = 150;
+  var BAR_WIDTH = 40;
+  var INDENT = 90;
+  var INITIAL_X = 190;
+  var INITIAL_Y = 115;
+  var LINE_HEIGHT = 15;
+  var step = HISTOGRAM_HEIGHT / (max - 0);
 
   for (i = 0; i < times.length; i++) {
     ctx.fillStyle = '#000000';
-    ctx.fillText(names[i], initialX + indent * i, initialY + lineHeight + histogramHeight);
-    ctx.fillText(Math.round(times[i]), initialX + indent * i, initialY + histogramHeight - times[i] * step - lineHeight);
+    ctx.fillText(names[i], INITIAL_X + INDENT * i, INITIAL_Y + LINE_HEIGHT + HISTOGRAM_HEIGHT);
+    ctx.fillText(Math.round(times[i]), INITIAL_X + INDENT * i, INITIAL_Y + HISTOGRAM_HEIGHT - times[i] * step - LINE_HEIGHT);
 
     if (names[i] === 'Вы') {
       ctx.fillStyle = ('rgba(255, 0, 0, 1)');
     } else {
-      ctx.fillStyle = 'rgba(0, 0, 255,' + Math.ceil(Math.random() * 10) / 10 + ')';
+      ctx.fillStyle = getRandomBlueColor();
     }
 
-    ctx.fillRect(initialX + indent * i, initialY + histogramHeight - times[i] * step, barWidth, times[i] * step);
+    ctx.fillRect(INITIAL_X + INDENT * i, INITIAL_Y + HISTOGRAM_HEIGHT - times[i] * step, BAR_WIDTH, times[i] * step);
   }
-
-
 };
